@@ -3,7 +3,9 @@ package uo.ri.cws.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
 import alb.util.assertion.ArgumentChecks;
+import alb.util.assertion.StateChecks;
 
 @Entity
 @Table(name = "TVOUCHERS")
@@ -24,7 +26,7 @@ public class Voucher extends PaymentMean {
 
 	public Voucher(String code, String description, double available) {
 		this(code, description);
-		ArgumentChecks.isTrue(available >= 0);
+		ArgumentChecks.isNotNull(available);
 		this.available = available;
 	}
 
@@ -34,16 +36,9 @@ public class Voucher extends PaymentMean {
 	 */
 	@Override
 	public void pay(double amount) {
-		if (available < amount) {
-			throw new IllegalStateException();
-		}
+		StateChecks.isTrue(available>=amount, "No tienes suficiente dinero");
 		super.pay(amount);
 		available -= amount;
-	}
-
-	@Override
-	public boolean canPay(double amount) {
-	    return (available < amount) ?  false : true;
 	}
 	
 	public String getCode() {
@@ -68,12 +63,6 @@ public class Voucher extends PaymentMean {
 
 	public double getAvailable() {
 		return available;
-	}
-	
-	@Override
-	public String toString() {
-		return "Voucher [code=" + code + ", available=" + available 
-			+ ", description=" + description + "]";
 	}
 
 }

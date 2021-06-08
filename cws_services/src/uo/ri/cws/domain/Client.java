@@ -30,40 +30,18 @@ public class Client extends BaseEntity{
 	
 	Client(){}
 	
-	public Client(String dni, String name, String surname, String email, String phone, Address address) {
+	public Client(String dni) {
+		super();
 		ArgumentChecks.isNotEmpty(dni);
+		this.dni = dni;
+	}
+	
+	public Client(String dni, String name, String surname) {
+		this(dni);
 		ArgumentChecks.isNotEmpty(name);
 		ArgumentChecks.isNotEmpty(surname);
-		ArgumentChecks.isNotEmpty(email);
-		ArgumentChecks.isNotEmpty(phone);
-		ArgumentChecks.isNotNull(address);
-		
-		this.dni = dni;
 		this.name = name;
 		this.surname = surname;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-	}
-
-	public Client(String dni, String name, String surname) {
-		this(dni, name, surname, "no@email","no_phone", new Address());
-	}
-
-	public Client(String dni) {
-		this(dni, "no_name", "no_surname", "no@email","no_phone", new Address());
-	}
-	
-	public Set<PaymentMean> getPaymentMeans() {
-		return new HashSet<>(paymentMeans);
-	}
-	
-	Set<PaymentMean> _getPaymentMeans() {
-		return paymentMeans;
-	}
-
-	public void setPaymentMeans(Set<PaymentMean> paymentMeans) {
-		this.paymentMeans = paymentMeans;
 	}
 
 	public String getDni() {
@@ -85,28 +63,42 @@ public class Client extends BaseEntity{
 	public String getPhone() {
 		return phone;
 	}
-	
-	public Set<Vehicle> getVehicles() {
-		return new HashSet<>(vehicles);
-	}
-	
-	Set<Vehicle> _getVehicles() {
-		return vehicles;
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public Address getAddress() {
 		return address;
 	}
-	
+
 	public void setAddress(Address address) {
 		this.address = address;
 	}
 
 	@Override
 	public String toString() {
-		return "Client [dni=" + dni + ", name=" + name 
-			+ ", surname=" + surname + ", email=" + email + ", phone="
-			+ phone + ", address=" + address + "]";
+		return "Client [dni=" + dni + ", name=" + name + ", surname=" + surname + ", email=" + email + ", phone="
+				+ phone + ", address=" + address + "]";
 	}
+
+	Set<Vehicle> _getVehicles() {
+		return vehicles;
+	}
+	
+	public Set<Vehicle> getVehicles() {
+		return new HashSet<>(vehicles);
+	}
+
+	Set<PaymentMean> _getPaymentMeans() {
+		return paymentMeans;
+	}
+	
+	public Set<PaymentMean> getPaymentMeans() {
+		return new HashSet<>(paymentMeans);
+	}
+	
+	
+	
 }
 

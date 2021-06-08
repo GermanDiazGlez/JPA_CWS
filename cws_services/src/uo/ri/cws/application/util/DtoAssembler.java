@@ -235,6 +235,7 @@ public class DtoAssembler {
 
 		return dto;
 	}
+
 	public static OrderLineDto toDto(OrderLine line) {
 		OrderLineDto dto = new OrderLineDto();
 

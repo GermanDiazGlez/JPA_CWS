@@ -9,7 +9,7 @@ public class Associations {
 			client._getVehicles().add(vehicle);
 		}
 
-		public static void unlink(Client client, Vehicle vehicle) {		
+		public static void unlink(Client client, Vehicle vehicle) {
 			client._getVehicles().remove(vehicle);
 			vehicle._setClient(null);
 		}
@@ -26,7 +26,6 @@ public class Associations {
 		public static void unlink(VehicleType vehicleType, Vehicle vehicle) {
 			vehicleType._getVehicles().remove(vehicle);
 			vehicle._setVehicleType(null);
-			
 		}
 
 	}
@@ -41,7 +40,6 @@ public class Associations {
 		public static void unlink(Client client, PaymentMean pm) {
 			client._getPaymentMeans().remove(pm);
 			pm._setClient(null);
-			
 		}
 
 	}
@@ -53,10 +51,9 @@ public class Associations {
 			vehicle._getWorkOrders().add(workOrder);
 		}
 
-		public static void unlink(Vehicle vehicle, WorkOrder workOrder) {		
+		public static void unlink(Vehicle vehicle, WorkOrder workOrder) {
 			vehicle._getWorkOrders().remove(workOrder);
 			workOrder._setVehicle(null);
-			
 		}
 
 	}
@@ -85,11 +82,14 @@ public class Associations {
 		}
 
 		public static void unlink(Charge charge) {
-			charge.getPaymentMean()._getCharges().remove(charge);
-			charge.getInvoice()._getCharges().remove(charge);
+			PaymentMean pm = charge.getPaymentMean();
+			Invoice invoice = charge.getInvoice();
 			
-			charge._setPaymentMean(null);
+			pm._getCharges().remove(charge);
+			invoice._getCharges().remove(charge);
+			
 			charge._setInvoice(null);
+			charge._setPaymentMean(null);
 		}
 
 	}
@@ -99,13 +99,11 @@ public class Associations {
 		public static void link(Mechanic mechanic, WorkOrder workOrder) {
 			workOrder._setMechanic(mechanic);
 			mechanic._getAssigned().add(workOrder);
-			
 		}
 
 		public static void unlink(Mechanic mechanic, WorkOrder workOrder) {
 			mechanic._getAssigned().remove(workOrder);
 			workOrder._setMechanic(null);
-			
 		}
 
 	}
@@ -114,19 +112,22 @@ public class Associations {
 
 		public static void link(WorkOrder workOrder, Intervention intervention,
 				Mechanic mechanic) {
-			intervention._setMechanic(mechanic);
 			intervention._setWorkOrder(workOrder);
+			intervention._setMechanic(mechanic);
 			
-			mechanic._getInterventions().add(intervention);
 			workOrder._getInterventions().add(intervention);
+			mechanic._getInterventions().add(intervention);
 		}
 
 		public static void unlink(Intervention intervention) {
-			intervention.getMechanic()._getInterventions().remove(intervention);
-			intervention.getWorkOrder()._getInterventions().remove(intervention);
+			WorkOrder wo = intervention.getWorkOrder();
+			Mechanic m = intervention.getMechanic();
+			
+			wo._getInterventions().remove(intervention);
+			m._getInterventions().remove(intervention);
 			
 			intervention._setMechanic(null);
-			intervention._setWorkOrder(null);		
+			intervention._setWorkOrder(null);
 		}
 
 	}
@@ -138,17 +139,19 @@ public class Associations {
 			sustitution._setIntervention(intervention);
 			sustitution._setSparePart(spare);
 			
-			spare._getSubstitutions().add(sustitution);
 			intervention._getSubstitutions().add(sustitution);
+			spare._getSubstitutions().add(sustitution);
 		}
 
 		public static void unlink(Substitution sustitution) {
-			sustitution.getSparePart()._getSubstitutions().remove(sustitution);
-			sustitution.getIntervention()._getSubstitutions().remove(sustitution);
+			SparePart spare = sustitution.getSparePart();
+			Intervention intervention = sustitution.getIntervention();
+			
+			spare._getSubstitutions().remove(sustitution);
+			intervention._getSubstitutions().remove(sustitution);
 			
 			sustitution._setIntervention(null);
 			sustitution._setSparePart(null);
-					
 		}
 
 	}
@@ -159,33 +162,36 @@ public class Associations {
 			order._setProvider(provider);
 			provider._getOrders().add(order);
 		}
-
-		public static void unlink(Provider provider, Order order) {				
+		
+		public static void unlink(Provider provider, Order order) {
 			provider._getOrders().remove(order);
 			order._setProvider(null);
 		}
-
 	}
+	
 	
 	public static class Supplies {
 
 		public static void link(SparePart sparePart, Supply supply, Provider provider) {
-			
 			supply._setSparePart(sparePart);
 			supply._setProvider(provider);
-			
-			sparePart._getSupplies().add(supply);
+
 			provider._getSupplies().add(supply);
+			sparePart._getSupplies().add(supply);
 		}
 
 		public static void unlink(Supply supply) {
-			supply.getSparePart()._getSupplies().remove(supply);
-			supply.getProvider()._getSupplies().remove(supply);
+			SparePart spare = supply.getSparePart();
+			Provider provider = supply.getProvider();
 			
+			spare._getSupplies().remove(supply);
+			provider._getSupplies().remove(supply);
+			
+			supply._setProvider(null);
 			supply._setSparePart(null);
-			supply._setProvider(null);		
 		}
 
 	}
+	
 
 }

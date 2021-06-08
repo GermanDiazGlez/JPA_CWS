@@ -25,31 +25,33 @@ public abstract class PaymentMean extends BaseEntity {
 	@OneToMany(mappedBy = "paymentMean")
 	private Set<Charge> charges = new HashSet<>();
 
-	public void pay(double importe) {
-		this.accumulated += importe;
-	}
-	
 	public double getAccumulated() {
 		return accumulated;
-	}
-
-	void _setClient(Client client) {
-		this.client = client;
 	}
 
 	public Client getClient() {
 		return client;
 	}
 
+	public void pay(double importe) {
+		this.accumulated += importe;
+	}
+
+	void _setClient(Client client) {
+		this.client = client;
+	}
+
+	void setClient(Client client) {
+		this.client = client;
+	}
+
 	public Set<Charge> getCharges() {
-		return new HashSet<>( charges );
+		return new HashSet<>(charges);
 	}
 
 	Set<Charge> _getCharges() {
 		return charges;
 	}
-	
-	public abstract boolean canPay( double amount );
 
 	@Override
 	public String toString() {

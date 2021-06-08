@@ -18,7 +18,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="false" />
     </content>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="junit4">
         <CLASSES>
           <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.12.jar!/" />
@@ -30,7 +30,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="15" jdkType="JavaSDK" />
     <orderEntry type="module" module-name="AlbUtil" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="commonj.sdo-2.1.1.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/commonj.sdo-2.1.1.jar!/" />
@@ -39,7 +39,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="eclipselink-2.7.7.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/eclipselink-2.7.7.jar!/" />
@@ -57,7 +57,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="jakarta.persistence-2.2.3.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/jakarta.persistence-2.2.3.jar!/" />
@@ -66,7 +66,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library name="javax.persistence-api-2.2.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/javax.persistence-api-2.2.jar!/" />

@@ -7,6 +7,8 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import alb.util.assertion.ArgumentChecks;
@@ -15,29 +17,34 @@ import uo.ri.cws.domain.base.BaseEntity;
 @Entity
 @Table(name = "TORDERS")
 public class Order extends BaseEntity{
-    	@Column (unique = true)
+	
+	@Column (unique = true)
 	private String code;
-	private double amount;
 	private LocalDate orderedDate;
 	private LocalDate receptionDate;
+	private double amount;
+
 	
 	public enum OrderStatus { PENDING, RECEIVED }
+	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
-	
+
+	//Atributos accidentales
 	@ManyToOne private Provider provider;
 	
 	@ElementCollection
 	@CollectionTable(name="TOrderLines")
 	private Set<OrderLine> lines = new HashSet<>();
 	
-	Order(){}
-	
+	public Order() {}
+
 	public Order(String code, double amount, LocalDate orderedDate, LocalDate receptionDate, OrderStatus status) {
+		
 		ArgumentChecks.isNotEmpty(code);
-		ArgumentChecks.isTrue(amount >= 0);
 		ArgumentChecks.isNotNull(orderedDate);
 		ArgumentChecks.isNotNull(receptionDate);
 		ArgumentChecks.isNotNull(status);
+		ArgumentChecks.isTrue(amount >= 0);
 		
 		this.code = code;
 		this.amount = amount;
@@ -45,26 +52,117 @@ public class Order extends BaseEntity{
 		this.receptionDate = receptionDate;
 		this.status = status;
 	}
-
+	
 	public Order(String code) {
-		this(code, 0, LocalDate.now(), LocalDate.now(), OrderStatus.PENDING);
+		ArgumentChecks.isNotNull(code);
+		this.code = code;
+		this.orderedDate = LocalDate.now();
+		this.status = OrderStatus.PENDING;
 	}
 
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public LocalDate getOrderedDate() {
+		return orderedDate;
+	}
+
+	public void setOrderedDate(LocalDate orderedDate) {
+		this.orderedDate = orderedDate;
+	}
+
+	public LocalDate getReceptionDate() {
+		return receptionDate;
+	}
+
+	public void setReceptionDate(LocalDate receptionDate) {
+		this.receptionDate = receptionDate;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
+	public Provider getProvider() {
+		return provider;
+	}
+
+	void _setProvider(Provider provider) {
+		this.provider = provider;
+	}
+
+	public Set<OrderLine> getLines() {
+		return new HashSet<> ( lines );
+	}
+	
+	
+
+	public void setLines(Set<OrderLine> lines) {
+		this.lines = lines;
+	}
+	
+
+//	private double calculateNewPrice(OrderLine ol) {
+//		int previousStock = ol.getSparePart().getStock();
+//		int maxStock = ol.getSparePart().getMaxStock();
+//		double purchasePrice = ol.getPrice();
+//		double previousPrice = ol.getSparePart().getPrice();
+//		
+//		double newPrice = (previousStock * previousPrice
+//				+ 1.2 * purchasePrice * (maxStock - previousStock)
+//			)
+//			/ maxStock;
+//		return newPrice;
+//	}
+	
+	private double calculateAmount() {
+		double amount = 0;
+		for (OrderLine orderLine : lines) {
+			amount = orderLine.getPrice() * orderLine.getQuantity();
+		}
+		return amount;
+	}
+	
+	public void setAmount() {
+		this.amount = calculateAmount();
+	}
+
+	
 	public void addSparePartFromSupply(Supply supply) {
+		
 		ArgumentChecks.isNotNull(supply);
 		
 		for (OrderLine line : lines) {
 			if (line.getSparePart().equals(supply.getSparePart())) {
 				throw new IllegalStateException();
-			}
+			}	
 		}
 		
 		if (supply.getSparePart().getStock() < supply.getSparePart().getMinStock()) {
 			int amount = supply.getSparePart().getMaxStock() - supply.getSparePart().getStock();
 			lines.add(new OrderLine(amount,supply.getPrice(), supply.getSparePart(), this));
 			updateAmount();
-		}				
+		}
+			
 	}
+	
 
 	private void updateAmount() {
 		amount = 0;
@@ -88,16 +186,11 @@ public class Order extends BaseEntity{
 			line.receive();
 
 		status = OrderStatus.RECEIVED;
+		this.receptionDate = LocalDate.now();
 	}
 
 	public boolean isReceived() {
 		if (status.equals(OrderStatus.RECEIVED))
-			return true;
-		return false;
-	}
-
-	public boolean isPending() {
-		if (status.equals(OrderStatus.PENDING))
 			return true;
 		return false;
 	}
@@ -112,41 +205,16 @@ public class Order extends BaseEntity{
 				toRemove = line;
 		
 		lines.remove(toRemove);
-	}	
-	
-
-	public String getCode() {
-		return code;
+				
+		
 	}
 
-	public double getAmount() {
-		return amount;
-	}
-
-	public LocalDate getOrderedDate() {
-		return orderedDate;
-	}
-
-	public LocalDate getReceptionDate() {
-		return receptionDate;
-	}
-
-	public OrderStatus getStatus() {
-		return status;
+	public boolean isPending() {
+		if (status.equals(OrderStatus.PENDING))
+			return true;
+		return false;
 	}
 	
-	public Provider getProvider() {
-		return provider;
-	}
-
-	@Override
-	public String toString() {
-		return "Order [code=" + code + ", amount=" + amount + ", orderedDate=" 
-				+ orderedDate + ", receptionDate="
-				+ receptionDate + ", status=" + status + "]";
-	}
-
-	void _setProvider(Provider provider) {
-		this.provider = provider;
-	}
+	
+	
 }

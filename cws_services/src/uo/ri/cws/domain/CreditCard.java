@@ -1,10 +1,13 @@
 package uo.ri.cws.domain;
 
 import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
 import alb.util.assertion.ArgumentChecks;
+import alb.util.assertion.StateChecks;
 
 @Entity
 @Table(name = "TCREDITCARDS")
@@ -15,45 +18,28 @@ public class CreditCard extends PaymentMean {
 	
 	CreditCard(){}
 	
-	public CreditCard(String number, String type, LocalDate validThru) {
+	public CreditCard(String number) {
+		super();
 		ArgumentChecks.isNotEmpty(number);
-		ArgumentChecks.isNotEmpty(type);
-		ArgumentChecks.isNotNull(validThru);
-		
 		this.number = number;
+	}
+
+
+	public CreditCard(String number, String type, LocalDate validThru) {
+		this(number);
+		ArgumentChecks.isNotEmpty(type);
 		this.type = type;
 		this.validThru = validThru;
 	}
 	
-//	public CreditCard(String number) {
-//		super();
-//		ArgumentChecks.isNotEmpty(number);
-//		this.number = number;
-//	}
-//
-//
-//	public CreditCard(String number, String type, LocalDate validThru) {
-//		this(number);
-//		ArgumentChecks.isNotEmpty(type);
-//		this.type = type;
-//		this.validThru = validThru;
-//	}
-	
 	@Override
-	public void pay(double importe) {
-		if (validThru.compareTo(LocalDate.now()) < 0)
-			throw new IllegalStateException();
-		super.pay(importe);
+	public void pay(double amount) {
+		LocalDate ahora = LocalDate.now();
+		StateChecks.isTrue(ahora.isBefore(validThru), "No tienes suficiente dinero");
+		super.pay(amount);
 	}
-	
-	@Override
-	public boolean canPay(double amount) {
-		if (validThru.compareTo(LocalDate.now()) < 0)
-			return false;
-		
-		return true;
-	}
-	
+
+
 	public String getNumber() {
 		return number;
 	}
@@ -66,12 +52,6 @@ public class CreditCard extends PaymentMean {
 
 	public LocalDate getValidThru() {
 		return validThru;
-	}
-
-	@Override
-	public String toString() {
-		return "CreditCard [number=" + number + ", type=" + type 
-			+ ", validThru=" + validThru + "]";
 	}
 
 }

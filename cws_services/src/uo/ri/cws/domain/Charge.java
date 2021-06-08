@@ -1,10 +1,14 @@
 package uo.ri.cws.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
 import alb.util.assertion.ArgumentChecks;
+import alb.util.assertion.StateChecks;
 import uo.ri.cws.domain.Invoice.InvoiceStatus;
 import uo.ri.cws.domain.base.BaseEntity;
 
@@ -27,13 +31,20 @@ public class Charge extends BaseEntity {
 	Charge() {}
 
 	public Charge(Invoice invoice, PaymentMean paymentMean, double amount) {
-		ArgumentChecks.isTrue(amount >= 0);
+		ArgumentChecks.isNotNull(amount);
 		ArgumentChecks.isNotNull(invoice);
 		ArgumentChecks.isNotNull(paymentMean);
-		this.amount = amount;
 		
+		if (paymentMean instanceof Voucher) {
+			StateChecks.isTrue(((Voucher)paymentMean).getAvailable()>=amount);
+		}
+		if (paymentMean instanceof CreditCard) {	
+			StateChecks.isTrue(((CreditCard)paymentMean).getValidThru().isAfter(LocalDate.now()));
+		}
+		this.amount = amount;
+		// store the amount
 		// increment the paymentMean accumulated -> paymentMean.pay( amount )
-		paymentMean.pay(amount);
+		paymentMean.pay( this.amount );
 		// link invoice, this and paymentMean
 		Associations.Charges.link(paymentMean, this, invoice);
 		
@@ -44,20 +55,12 @@ public class Charge extends BaseEntity {
 	 * @throws IllegalStateException if the invoice is already settled
 	 */
 	public void rewind() {
-		// asserts the invoice is not in PAID status
-		ArgumentChecks.isTrue(!this.getInvoice().getStatus().equals(InvoiceStatus.PAID));
-		// decrements the payment mean accumulated ( paymentMean.pay( -amount) )
-		this.getPaymentMean().pay(-amount);
-		// unlinks invoice, this and paymentMean
+		// assert the invoice is not in PAID status
+		StateChecks.isTrue(InvoiceStatus.NOT_YET_PAID.equals(invoice.getStatus()) , "Invoice cant be paid");
+		// decrement the payment mean accumulated ( paymentMean.pay( -amount) )
+		paymentMean.pay(-amount);
+		// unlink invoice, this and paymentMean
 		Associations.Charges.unlink(this);
-	}
-
-	void _setInvoice(Invoice invoice) {
-		this.invoice = invoice;
-	}
-
-	void _setPaymentMean(PaymentMean paymentMean) {
-		this.paymentMean = paymentMean;
 	}
 
 	public double getAmount() {
@@ -71,10 +74,20 @@ public class Charge extends BaseEntity {
 	public PaymentMean getPaymentMean() {
 		return paymentMean;
 	}
+	
+	void _setPaymentMean(PaymentMean paymentMean) {
+		this.paymentMean = paymentMean;
+	}
+	
+	void _setInvoice(Invoice invoice) {
+		this.invoice = invoice;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Charge [amount=" + amount + ", invoice=" + invoice + ", paymentMean=" + paymentMean + "]";
 	}
+
 	
 }
