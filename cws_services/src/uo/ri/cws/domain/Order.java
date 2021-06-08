@@ -39,7 +39,6 @@ public class Order extends BaseEntity{
 	public Order() {}
 
 	public Order(String code, double amount, LocalDate orderedDate, LocalDate receptionDate, OrderStatus status) {
-		
 		ArgumentChecks.isNotEmpty(code);
 		ArgumentChecks.isNotNull(orderedDate);
 		ArgumentChecks.isNotNull(receptionDate);
@@ -112,25 +111,11 @@ public class Order extends BaseEntity{
 		return new HashSet<> ( lines );
 	}
 	
-	
 
 	public void setLines(Set<OrderLine> lines) {
 		this.lines = lines;
 	}
 	
-
-//	private double calculateNewPrice(OrderLine ol) {
-//		int previousStock = ol.getSparePart().getStock();
-//		int maxStock = ol.getSparePart().getMaxStock();
-//		double purchasePrice = ol.getPrice();
-//		double previousPrice = ol.getSparePart().getPrice();
-//		
-//		double newPrice = (previousStock * previousPrice
-//				+ 1.2 * purchasePrice * (maxStock - previousStock)
-//			)
-//			/ maxStock;
-//		return newPrice;
-//	}
 	
 	private double calculateAmount() {
 		double amount = 0;
@@ -146,7 +131,6 @@ public class Order extends BaseEntity{
 
 	
 	public void addSparePartFromSupply(Supply supply) {
-		
 		ArgumentChecks.isNotNull(supply);
 		
 		for (OrderLine line : lines) {
@@ -166,9 +150,10 @@ public class Order extends BaseEntity{
 
 	private void updateAmount() {
 		amount = 0;
-		
-		for (OrderLine line : lines)
+		for (OrderLine line : lines) {
 			amount += line.getAmount();
+	
+		}
 	}
 
 	public Set<OrderLine> getOrderLines() {
@@ -190,29 +175,23 @@ public class Order extends BaseEntity{
 	}
 
 	public boolean isReceived() {
-		if (status.equals(OrderStatus.RECEIVED))
-			return true;
-		return false;
+	    return (status.equals(OrderStatus.RECEIVED)) ? true : false;
 	}
 
 	public void removeSparePart(SparePart sp2) {
 		ArgumentChecks.isNotNull(sp2);
-		
 		OrderLine toRemove = null;
 		
-		for (OrderLine line : lines)
-			if (line.getSparePart().equals(sp2))
+		for (OrderLine line : lines) {
+			if (line.getSparePart().equals(sp2)) {
 				toRemove = line;
-		
+			}
+		}
 		lines.remove(toRemove);
-				
-		
 	}
 
 	public boolean isPending() {
-		if (status.equals(OrderStatus.PENDING))
-			return true;
-		return false;
+	    return (status.equals(OrderStatus.PENDING)) ? true : false;
 	}
 	
 	

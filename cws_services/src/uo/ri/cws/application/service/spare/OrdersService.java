@@ -4,10 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 import uo.ri.cws.application.service.BusinessException;
 
 public interface OrdersService {

@@ -177,7 +177,7 @@ public class SparePart extends BaseEntity {
     }
 
     public void updatePriceAndStock(double purchasePrice, int newQuantity) {
-	ArgumentChecks.isTrue(newQuantity != 0, "new quantity cant be zero");
+	ArgumentChecks.isTrue(newQuantity > 0, "new quantity must be over zero");
 	ArgumentChecks.isTrue(purchasePrice >= 0, "puechase price cant be negative");
 	int previousStock = getStock();
 	double previousPrice = getPrice();
