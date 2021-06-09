@@ -2,14 +2,15 @@ package uo.ri.ui;
 
 import alb.util.console.Printer;
 import alb.util.menu.BaseMenu;
-import alb.util.menu.NotYetImplementedAction;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.service.BusinessFactory;
 import uo.ri.cws.infrastructure.persistence.jpa.executor.JpaExecutorFactory;
 import uo.ri.cws.infrastructure.persistence.jpa.repository.JpaRepositoryFactory;
 import uo.ri.cws.infrastructure.persistence.jpa.util.Jpa;
 import uo.ri.ui.cashier.action.FindNotInvoicedWorkOrders;
+import uo.ri.ui.cashier.action.FindWorOrdersByPlateAction;
 import uo.ri.ui.cashier.action.InvoiceWorkorderAction;
+import uo.ri.ui.cashier.action.SettleInvoiceAction;
 
 public class CashierMain {
 
@@ -18,9 +19,9 @@ public class CashierMain {
 			menuOptions = new Object[][] { 
 				{ "Cash", null },
 				{ "Find not invoiced work orders", 	FindNotInvoicedWorkOrders.class }, 
-				{ "Find work order by plate", 		NotYetImplementedAction.class }, 
+				{ "Find work order by plate", 		FindWorOrdersByPlateAction.class }, 
 				{ "Inovice work orders", 			InvoiceWorkorderAction.class },
-				{ "Liquidate invoice", 				NotYetImplementedAction.class },
+				{ "Liquidate invoice", 				SettleInvoiceAction.class },
 			};
 		}
 	}

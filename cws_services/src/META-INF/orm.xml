@@ -138,11 +138,21 @@
 	
 	<!-- PaymentMean queries -->
 	<named-query name="PaymentMean.findPaymentMeansByClientId">
-		<query>select p from PaymentMean p JOIN Client c where c.id = ?1</query>
+		<query>
+			select m 
+				from PaymentMean m 
+					join m.client c 
+				where c.id = ?1
+		</query>
 	</named-query>
 	
 	<named-query name="PaymentMean.findPaymentMeansByClientDni">
-		<query>select p from PaymentMean p JOIN Client c where c.dni = ?1</query>
+		<query>
+			select m 
+				from PaymentMean m 
+					join m.client c 
+				where c.dni = ?1
+		</query>
 	</named-query>
 	
 <!-- 

@@ -53,5 +53,16 @@ public class CreditCard extends PaymentMean {
 	public LocalDate getValidThru() {
 		return validThru;
 	}
+	
+	@Override
+	public boolean canPay(double amount) {
+	    return (validThru.compareTo(LocalDate.now()) < 0) ? false : true;
+	}	
+	
+	@Override
+	public String toString() {
+		return "CreditCard [number=" + number + ", type=" + type 
+			+ ", validThru=" + validThru + "]";
+	}
 
 }

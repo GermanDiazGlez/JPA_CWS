@@ -57,5 +57,7 @@ public abstract class PaymentMean extends BaseEntity {
 	public String toString() {
 		return "PaymentMean [accumulated=" + accumulated + ", client=" + client + "]";
 	}
+	
+	public abstract boolean canPay( double amount );
 
 }

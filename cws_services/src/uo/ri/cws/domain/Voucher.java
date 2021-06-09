@@ -64,5 +64,15 @@ public class Voucher extends PaymentMean {
 	public double getAvailable() {
 		return available;
 	}
+	
+	@Override
+	public boolean canPay(double amount) {
+	    return (available < amount) ? false : true;
+	}
 
+	@Override
+	public String toString() {
+		return "Voucher [code=" + code + ", available=" + available 
+			+ ", description=" + description + "]";
+	}
 }

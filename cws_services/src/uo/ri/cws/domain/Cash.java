@@ -16,4 +16,13 @@ public class Cash extends PaymentMean {
 		Associations.Pay.link(this, client);
 	}
 
+	@Override
+	public boolean canPay(double amount) {
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "Cash []";
+	}
 }
