@@ -8,6 +8,7 @@ import uo.ri.conf.Factory;
 import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.invoice.InvoicingService;
 import uo.ri.cws.application.service.invoice.create.command.CreateInvoiceFor;
+import uo.ri.cws.application.service.invoice.create.command.FindWorkOrderByClientDni;
 import uo.ri.cws.application.util.command.CommandExecutor;
 
 public class InvoicingServiceImpl implements InvoicingService {
@@ -15,16 +16,13 @@ public class InvoicingServiceImpl implements InvoicingService {
 	private CommandExecutor executor = Factory.executor.forExecutor();
 
 	@Override
-	public InvoiceDto createInvoiceFor(List<String> woIds)
-			throws BusinessException {
-
+	public InvoiceDto createInvoiceFor(List<String> woIds) throws BusinessException {
 		return executor.execute( new CreateInvoiceFor( woIds) );
 	}
 
 	@Override
 	public List<InvoicingWorkOrderDto> findWorkOrdersByClientDni(String dni) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+	    return executor.execute( new FindWorkOrderByClientDni(dni) );
 	}
 
 	@Override

@@ -46,10 +46,10 @@ public class CreateInvoiceFor implements Command<InvoiceDto>{
 	 */
 	private void checkWorkOrders(List<WorkOrder> workOrders) throws BusinessException {
 		BusinessChecks.isFalse(workOrders.isEmpty(), "No workOrders");
+		BusinessChecks.isNotNull(workOrders);
 		
 		for(WorkOrder w : workOrders) {
-			BusinessChecks.isFalse(w.getStatus().equals(WorkOrderStatus.INVOICED), "WorkOrder has been invoiced");
-			BusinessChecks.isTrue(w.getStatus().equals(WorkOrderStatus.FINISHED), "WorkOrder is not terminated");
+			BusinessChecks.isTrue(w.getStatus().equals(WorkOrderStatus.FINISHED), "One of the WorkOrders is not terminated");
 		}
 	}
 }

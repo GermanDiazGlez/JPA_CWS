@@ -15,11 +15,11 @@
 	</named-query>
 	
 	<named-query name="WorkOrder.findByClientDni">
-		<query>select a from WorkOrder a JOIN Vehicle v JOIN Client c where c.dni = ?1</query>
+		<query>select a from WorkOrder a join a.vehicle.client c where c.dni = ?1</query>
 	</named-query>
 	
 	<named-query name="WorkOrder.findByPlateNumber">
-		<query>select a from WorkOrder a JOIN Vehicle v where v.plateNumber = ?1</query>
+		<query>select a from WorkOrder a join a.vehicle v where v.plateNumber = ?1</query>
 	</named-query>
 
 	<!-- PaymentMean queries -->
@@ -120,7 +120,7 @@
 	</named-query>
 	
 	<named-query name="Provider.findBySpCode">
-		<query>select distinct p from Provider p JOIN Supply s where s.sparePart.code = ?1</query>
+		<query>select p	from Supply s join s.provider p	join s.sparePart x where x.code = ?1</query>
 	</named-query>
 	
 	<!-- Supply queries -->
