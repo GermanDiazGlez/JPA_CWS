@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 
 import uo.ri.cws.application.repository.SparePartRepository;
+import uo.ri.cws.domain.Order.OrderStatus;
 import uo.ri.cws.domain.SparePart;
 import uo.ri.cws.infrastructure.persistence.jpa.util.BaseJpaRepository;
 import uo.ri.cws.infrastructure.persistence.jpa.util.Jpa;
@@ -28,8 +29,8 @@ public class SparePartJpaRepository
 	public List<SparePart> findUnderStockNotPending() {
 		EntityManager em = Jpa.getManager();
 		return em.createNamedQuery("SparePart.findUnderStockNotPending", SparePart.class)
-			.getResultStream()
-			.collect(Collectors.toList());
+			.setParameter(1, OrderStatus.PENDING)
+			.getResultList();
 	}
 	
 	@Override

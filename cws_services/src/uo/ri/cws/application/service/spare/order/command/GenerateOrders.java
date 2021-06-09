@@ -31,7 +31,7 @@ public class GenerateOrders implements Command<List<OrderDto>> {
 		List<SparePart> sparesUnderStock = spareRepo.findUnderStockNotPending();
 		for(SparePart spare: sparesUnderStock) {
 			Optional<Supply> os = spare.getBestSupply();
-			if ( os.isEmpty() ) continue; // there is no supply, so ignore it
+			if ( os.isEmpty() ) continue;
 
 			Supply supply = os.get();
 			if(supply.getProvider()!=null) {

@@ -59,11 +59,9 @@
 	
 	<named-query name="SparePart.findUnderStock">
 		<query>
-			<![CDATA[
-			select p
-				from SparePart p
-				where p.stock < p.minStock
-			]]>
+		<![CDATA[
+			select p from SparePart p where p.stock < p.minStock
+		]]>
 		</query>
 	</named-query>
 	
@@ -75,11 +73,14 @@
 	<named-query name="SparePart.findUnderStockNotPending">
 		<query>
 			<![CDATA[
- 			select p
- 				from SparePart p
- 				where p.stock < p.minStock
- 				and p.id not in (select l.sparePart.id from Order o JOIN o.lines l where o.status = uo.ri.cws.domain.StatusEnum.PENDING)
- 			]]>
+			select sp
+			from SparePart sp
+			where sp.stock < sp.minStock 
+			and sp not in (select distinct l.sparePart
+						  from Order o
+						  join o.lines l
+						  where o.status = ?1 )
+			]]>
 		</query>
 	</named-query>
 	

@@ -16,7 +16,7 @@ public class FindSparePartsUnderStock implements Command<List<SparePartReportDto
 
 	@Override
 	public List<SparePartReportDto> execute() throws BusinessException {
-		List<SparePart> list = repo.findUnderStockNotPending();
+		List<SparePart> list = repo.findUnderStock();
 		return DtoAssembler.toSparePartRepoDtoList( list );
 	}
 
