@@ -24,6 +24,7 @@ public class WorkOrderJpaRepository
 	public List<WorkOrder> findByClientDni(String dni) {
 	    	return Jpa.getManager()
 	    			.createNamedQuery("WorkOrder.findByClientDni", WorkOrder.class)
+				.setParameter( 1, dni )
 	    			.getResultStream()
 	    			.collect(Collectors.toList());
 	}

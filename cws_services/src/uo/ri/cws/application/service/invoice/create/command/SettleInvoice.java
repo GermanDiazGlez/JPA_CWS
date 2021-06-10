@@ -20,14 +20,13 @@ public class SettleInvoice implements Command<Void>{
     private String invoiceId;
     private Map<String, Double> charges;
 	
-    ChargeRepository cr = Factory.repository.forCharge();
     InvoiceRepository  ir = Factory.repository.forInvoice();
+    ChargeRepository cr = Factory.repository.forCharge();
     PaymentMeanRepository pmr = Factory.repository.forPaymentMean();
 
     public SettleInvoice(String invoiceId, Map<String, Double> charges) {
 	ArgumentChecks.isNotEmpty(invoiceId);
 	ArgumentChecks.isNotNull( charges );
-	
 	this.invoiceId = invoiceId;
 	this.charges = charges;
     }

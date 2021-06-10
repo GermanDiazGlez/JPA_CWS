@@ -35,7 +35,7 @@ public class CreditCard extends PaymentMean {
 	@Override
 	public void pay(double amount) {
 		LocalDate ahora = LocalDate.now();
-		StateChecks.isTrue(ahora.isBefore(validThru), "No tienes suficiente dinero");
+		StateChecks.isTrue(ahora.isBefore(validThru), "La tarjeta no es válida");
 		super.pay(amount);
 	}
 
