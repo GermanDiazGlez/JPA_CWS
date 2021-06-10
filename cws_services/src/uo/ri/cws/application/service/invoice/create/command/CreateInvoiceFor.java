@@ -18,8 +18,8 @@ import uo.ri.cws.domain.WorkOrder.WorkOrderStatus;
 public class CreateInvoiceFor implements Command<InvoiceDto>{
 
 	private List<String> workOrderIds;
-	private WorkOrderRepository wrkrsRepo = Factory.repository.forWorkOrder();
-	private InvoiceRepository invsRepo = Factory.repository.forInvoice();
+	private WorkOrderRepository wor = Factory.repository.forWorkOrder();
+	private InvoiceRepository ir = Factory.repository.forInvoice();
 
 	public CreateInvoiceFor(List<String> workOrderIds) {
 		ArgumentChecks.isNotNull( workOrderIds );
@@ -28,14 +28,14 @@ public class CreateInvoiceFor implements Command<InvoiceDto>{
 
 	@Override
 	public InvoiceDto execute() throws BusinessException {
-		Long number = invsRepo.getNextInvoiceNumber();
-		List<WorkOrder> workOrders = wrkrsRepo.findByIds(workOrderIds);
+		Long number = ir.getNextInvoiceNumber();
+		List<WorkOrder> workOrders = wor.findByIds(workOrderIds);
 		
 		// Security check
 		checkWorkOrders(workOrders);				
 		
 		Invoice in = new Invoice(number, workOrders);
-		invsRepo.add(in);
+		ir.add(in);
 		return DtoAssembler.toDto(in);
 	}
 	

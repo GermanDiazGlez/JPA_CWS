@@ -120,7 +120,7 @@
 	</named-query>
 	
 	<named-query name="Provider.findBySpCode">
-		<query>select p	from Supply s join s.provider p	join s.sparePart x where x.code = ?1</query>
+		<query>select p	from Supply s join s.provider p	join s.sparePart sp where sp.code = ?1</query>
 	</named-query>
 	
 	<!-- Supply queries -->

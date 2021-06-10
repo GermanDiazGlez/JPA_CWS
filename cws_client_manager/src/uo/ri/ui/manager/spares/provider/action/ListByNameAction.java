@@ -13,7 +13,7 @@ public class ListByNameAction implements Action {
 
 	@Override
 	public void execute() throws Exception {
-		String name = Console.readString("Please, type the name or part: ");
+		String name = Console.readString("Please, type the name or part (lower case please): ");
 		
 		ProvidersCrudService service = Factory.service.forProvidersService();
 		List<ProviderDto> providers = service.findByName( name );
