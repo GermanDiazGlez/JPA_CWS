@@ -1,11 +1,9 @@
 package uo.ri.cws.application.service.vehicle.crud.commands;
 
 import java.util.Optional;
-
 import alb.util.assertion.ArgumentChecks;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.VehicleRepository;
-import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.vehicle.VehicleCrudService.VehicleDto;
 import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
@@ -22,7 +20,7 @@ public class FindVehicleByPlate implements Command<Optional<VehicleDto>> {
 	}
 
 	@Override
-	public Optional<VehicleDto> execute() throws BusinessException {
+	public Optional<VehicleDto> execute() {
 		Optional<Vehicle> m = repo.findByPlate( plate );
 		return m.isPresent()
 				? Optional.of( DtoAssembler.toDto( m.get() ))

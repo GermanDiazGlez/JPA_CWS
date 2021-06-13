@@ -1,7 +1,6 @@
 package uo.ri.cws.application.service.vehicle.crud;
 
 import java.util.Optional;
-
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.vehicle.VehicleCrudService;

@@ -1,11 +1,9 @@
 package uo.ri.cws.application.service.spare.provider.crud;
 
 import java.util.Optional;
-
 import alb.util.assertion.ArgumentChecks;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.ProviderRepository;
-import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.spare.ProvidersCrudService.ProviderDto;
 import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
@@ -21,7 +19,7 @@ public class FindProviderByNif implements Command<Optional<ProviderDto>> {
 	}
 
 	@Override
-	public Optional<ProviderDto> execute() throws BusinessException {
+	public Optional<ProviderDto> execute() {
 		return repo.findByNif(nif).map(o -> DtoAssembler.toDto(o));
 	}
 

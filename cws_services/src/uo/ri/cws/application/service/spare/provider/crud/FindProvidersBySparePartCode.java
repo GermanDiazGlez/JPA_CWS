@@ -1,11 +1,9 @@
 package uo.ri.cws.application.service.spare.provider.crud;
 
 import java.util.List;
-
 import alb.util.assertion.ArgumentChecks;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.ProviderRepository;
-import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.spare.ProvidersCrudService.ProviderDto;
 import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
@@ -23,7 +21,7 @@ public class FindProvidersBySparePartCode
 	}
 
 	@Override
-	public List<ProviderDto> execute() throws BusinessException {
+	public List<ProviderDto> execute() {
 		List<Provider> list = repo.findBySparePartCode( code );
 		return DtoAssembler.toProvidersDtoList( list );
 	}

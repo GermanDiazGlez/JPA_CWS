@@ -1,11 +1,9 @@
 package uo.ri.cws.application.service.spare.supply.crud;
 
 import java.util.Optional;
-
 import alb.util.assertion.ArgumentChecks;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.SupplyRepository;
-import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.spare.SuppliesCrudService.SupplyDto;
 import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
@@ -24,7 +22,7 @@ public class FindSupplyByNifAndCode implements Command<Optional<SupplyDto>> {
 	}
 
 	@Override
-	public Optional<SupplyDto> execute() throws BusinessException {
+	public Optional<SupplyDto> execute() {
 		return repo.findByNifAndCode(nif, code)
 				.map(o -> DtoAssembler.toDto(o));
 	}

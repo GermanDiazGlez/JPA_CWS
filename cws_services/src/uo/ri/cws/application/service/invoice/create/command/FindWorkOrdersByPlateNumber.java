@@ -1,11 +1,9 @@
 package uo.ri.cws.application.service.invoice.create.command;
 
 import java.util.List;
-
 import alb.util.assertion.ArgumentChecks;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.WorkOrderRepository;
-import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.invoice.InvoicingService.InvoicingWorkOrderDto;
 import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
@@ -21,7 +19,7 @@ public class FindWorkOrdersByPlateNumber implements Command<List<InvoicingWorkOr
     }
 
     @Override
-    public List<InvoicingWorkOrderDto> execute() throws BusinessException {
+    public List<InvoicingWorkOrderDto> execute() {
 	List<WorkOrder> workOrders = repo.findByPlateNumber(plate);
 	
 	return DtoAssembler.toInvoicingWorkOrderDtoList(workOrders);

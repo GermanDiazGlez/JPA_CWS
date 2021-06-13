@@ -5,11 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.OrderRepository;
 import uo.ri.cws.application.repository.SparePartRepository;
-import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.spare.OrdersService.OrderDto;
 import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
@@ -25,7 +23,7 @@ public class GenerateOrders implements Command<List<OrderDto>> {
 	private OrderRepository orderRepo = Factory.repository.forOrder();
 
 	@Override
-	public List<OrderDto> execute() throws BusinessException {
+	public List<OrderDto> execute() {
 		Map<Provider, Order> orders = new HashMap<>();
 
 		List<SparePart> sparesUnderStock = spareRepo.findUnderStockNotPending();

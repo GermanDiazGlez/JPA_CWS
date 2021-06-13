@@ -1,7 +1,7 @@
 package uo.ri.cws.application.service.mechanic.crud.command;
 
 import java.util.Optional;
-
+import alb.util.assertion.ArgumentChecks;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.MechanicRepository;
 import uo.ri.cws.application.service.BusinessException;
@@ -15,6 +15,7 @@ public class AddMechanic implements Command<MechanicDto> {
 	private MechanicDto dto;
 
 	public AddMechanic(MechanicDto dto) {
+		ArgumentChecks.isNotNull( dto , "Dto cant be null");
 		this.dto = dto;
 	}
 

@@ -4,7 +4,6 @@ import java.util.List;
 import uo.ri.conf.Factory;
 import alb.util.assertion.ArgumentChecks;
 import uo.ri.cws.application.repository.WorkOrderRepository;
-import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.invoice.InvoicingService.InvoicingWorkOrderDto;
 import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
@@ -20,7 +19,7 @@ public class FindWorkOrderByClientDni implements Command<List<InvoicingWorkOrder
     }
 
     @Override
-    public List<InvoicingWorkOrderDto> execute() throws BusinessException {
+    public List<InvoicingWorkOrderDto> execute() {
 	List<WorkOrder> lw = wor.findByClientDni(dni);
 	
 	return DtoAssembler.toInvoicingWorkOrderDtoList(lw);

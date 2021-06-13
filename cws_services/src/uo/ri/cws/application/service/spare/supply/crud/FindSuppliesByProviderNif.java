@@ -1,11 +1,9 @@
 package uo.ri.cws.application.service.spare.supply.crud;
 
 import java.util.List;
-
 import alb.util.assertion.ArgumentChecks;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.SupplyRepository;
-import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.spare.SuppliesCrudService.SupplyDto;
 import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
@@ -22,7 +20,7 @@ public class FindSuppliesByProviderNif implements Command<List<SupplyDto>> {
 	}
 
 	@Override
-	public List<SupplyDto> execute() throws BusinessException {
+	public List<SupplyDto> execute() {
 		List<Supply> list = repo.findByProviderNif( nif );
 		return DtoAssembler.toSupplyDtoList( list );
 	}

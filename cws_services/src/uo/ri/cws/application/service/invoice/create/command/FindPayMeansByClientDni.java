@@ -1,11 +1,9 @@
 package uo.ri.cws.application.service.invoice.create.command;
 
 import java.util.List;
-
 import alb.util.assertion.ArgumentChecks;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.PaymentMeanRepository;
-import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.invoice.InvoicingService.PaymentMeanDto;
 import uo.ri.cws.application.util.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
@@ -21,7 +19,7 @@ public class FindPayMeansByClientDni implements Command<List<PaymentMeanDto>>{
     }
 
     @Override
-    public List<PaymentMeanDto> execute() throws BusinessException {
+    public List<PaymentMeanDto> execute() {
 	List<PaymentMean> paymentMeans = pmr.findPaymentMeansByClientDni(dni);
 	
 	return DtoAssembler.toPaymentMeanDtoList(paymentMeans);
